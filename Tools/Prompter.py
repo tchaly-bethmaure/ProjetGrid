@@ -1,70 +1,87 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
+# imports
 import os
 
-
+##
+#
 class Prompter:
+
+    ## constructor
     def __init__(self):
         pass
 
-    # demande a l'utilisateur de choisir parmis les choix dans iterable
+    ## list available choices
     def prompt_choice(self, question, iterable):
-        clear_screen()
         self.print_question(question)
         self.print_choice(iterable)
-        return input_request("choose an option (1, 2, 3, ...) ?")
+        return self.input_request("choose an option (1, 2, 3, ...) ?")
 
-    # pose a l'utilisateur une question et lui demande d'y repondre
+    ## ask a question
     def prompt_question(self, sentence):
         self.print_msg("")
         self.print_question(sentence)
-        return input_request(" type here : ")
+        return self.input_request(" type here : ")
 
-    # suite au choix, output le choix de l'utilisateur
+    ## ask the user to press a key to continue
+    def press_a_key_continue(self):
+        self.input_request("Press a key to continue...")
+
+    ## retrieve the user's choice
     def print_option_choosen(self, rep, liste):
         try:
-            self.print_output_msg("Réponse choisie : " + str(liste[int(rep) - 1]))
+            self.print_output_msg("Réponse choisie : " + str(liste[int(rep)]))
         except:
             self.print_output_msg("La réponse " + str(rep) + " n'est pas dans la liste des choix.")
 
+    ## print the user's choice
     def print_choice(self, iterable):
         i = 1
         for option in iterable:
             self.print_option(i, option)
             i += 1
 
+    ## print option
     def print_option(self, number, msg):
         self.print_msg(str(number) + ") " + msg)
 
+    ## print question
     def print_question(self, msg):
         self.print_msg("? : " + str(msg))
 
+    ## print output msg
     def print_output_msg(self, msg):
+        self.print_msg("")
         self.print_msg("[Output] : " + msg)
         return msg
 
+    ## print the specified message
     def print_msg(self, msg):
         print(msg)
 
-def clear_screen():
-    os.system("clear")
+    ## prompter
+    def input_request(self, msg):
+        some_text = raw_input("-> " + str(msg))
+        return some_text
 
-def input_request(msg):
-    some_text = raw_input("-> " + str(msg))
-    return some_text
+    ## clear the screen
+    def clear_screen(self):
+        os.system("clear")
 
 
-# Pour tester cette classe : methode test()
+## test
 def test():
     p = Prompter()
 
-    # Une question simple
+    # the question
     p.print_output_msg(p.prompt_question("Is python a good language ?"))
 
-    # un choix
+    # available choices
     list = ["SUPAman doh", "Make me feel cool", "Back to the old scripting fashion time..."]
     index = p.print_output_msg(p.prompt_choice("What's developping in Python makes you feel like ?", list))
     p.print_option_choosen(index, list)
 
+## launch test
 if __name__ == "__main__":
     test()
