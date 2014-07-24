@@ -5,6 +5,7 @@
 from Model.Script import Script
 from Tools.Prompter import Prompter
 from Tools.CmdLineExplorer import CmdLineExplorer
+from Tools.JobExecutor import JobExecutor
 
 ##
 #
@@ -71,7 +72,6 @@ class ScriptBrowser(Prompter, object):
             # Mode : menu de suppression de fichier.
             if choix_utilisateur == "2":
                 self.prompt_stack_deletion_mode()
-        self.next_step()
 
     ## launch the prompter for folder selection
     def prompt_folder_mode(self):
@@ -93,6 +93,7 @@ class ScriptBrowser(Prompter, object):
                 if file_explorer.is_in_folder(file) and file_explorer.is_a_file(file_explorer.current_path + "/" + file):
                     tool = self.prompt_question("With which tool do you want to execute this tool ?")
                     self.add_script_in_stack(file, tool, file_explorer.current_path + "/" + file)
+
             # go to a specific folder
             if choix_utilisateur == "3":
                 folder = self.prompt_question("In which folder would you like to go into ?")
@@ -102,9 +103,8 @@ class ScriptBrowser(Prompter, object):
             self.press_a_key_continue()
 
             # go back to the parent folder
-            if choix_utilisateur == "2":
+            if choix_utilisateur == "2" or choix_utilisateur == "cd ..":
                 file_explorer.go_backward()
-        self.prompt_menu()
 
     ## launch the prompter for removing file from stack
     def prompt_stack_deletion_mode(self):
@@ -141,15 +141,15 @@ class ScriptBrowser(Prompter, object):
         self.file_exec.remove(element_object)
         self.print_output_msg("Script has been deleted.")
 
-    ## go the next step
-    def next_step(self):
-        pass
-
 ## test
 def test():
-    sbp = ScriptBrowsePrompter()
+    sbp = ScriptBrowser()
     # Options selection
     sbp.prompt_menu()
+    #for script in sbp.file_exec:
+    #    print script.intitule
+    exe = JobExecutor()
+    exe.executeScripts(sbp.file_exec, "node0")
 
 ## launch test
 if __name__ == "__main__":

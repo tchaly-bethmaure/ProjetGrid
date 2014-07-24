@@ -43,11 +43,12 @@ class JobExecutor(Prompter):
         print ''
 
     ## execute the stack of jobs
-    def executeScripts(self, stack, nodes):
+    def executeScripts(self, stack, ns):
         for job in stack:
-            self.task.run(job.tool + " " + job.path, nodes=nodes)
+            self.task.run(job.tool + " " + job.path, nodes=ns)
 
             # handling output
             for output, nodes in self.task.iter_buffers():
                 # agregate and print output
                 print '%s : %s' % (nodes, output)
+            print ""

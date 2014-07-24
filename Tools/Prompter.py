@@ -31,9 +31,9 @@ class Prompter:
     ## retrieve the user's choice
     def print_option_choosen(self, rep, liste):
         try:
-            self.print_output_msg("Réponse choisie : " + str(liste[int(rep)]))
+            self.print_output_msg("You've choosen : " + str(liste[int(rep)]))
         except:
-            self.print_output_msg("La réponse " + str(rep) + " n'est pas dans la liste des choix.")
+            self.print_output_msg(str(rep) + " is not in the list.")
 
     ## print the user's choice
     def print_choice(self, iterable):
